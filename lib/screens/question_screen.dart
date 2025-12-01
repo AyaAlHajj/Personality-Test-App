@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:personality_test_app/data/questions_list.dart';
+import 'package:personality_test_app/models/personality.dart';
 
 class QuestionScreen extends StatelessWidget {
   const QuestionScreen({required this.questionIndex, required this.onSelectAnswer, super.key});
 
   final int questionIndex;
-  final void Function(String personality) onSelectAnswer;
+  final void Function(Personality personality) onSelectAnswer;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class QuestionScreen extends StatelessWidget {
 
           const SizedBox(height: 25),
           
-          ...currentQuestion.answers.map((answer) {
+          ...currentQuestion.getShuffledAnswers().map((answer) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
 
@@ -36,6 +37,7 @@ class QuestionScreen extends StatelessWidget {
 
                 onPressed: () {
                   onSelectAnswer(answer.personality);
+
                 },
 
                 child: Text(answer.text)

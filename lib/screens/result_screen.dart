@@ -5,39 +5,44 @@ import 'package:personality_test_app/models/personality.dart';
 class ResultScreen extends StatelessWidget {
   final void Function() restartTest;
   final List<String> chosenAnswers;
-  const ResultScreen({required this.restartTest, required this.chosenAnswers, super.key});
-
-
+  const ResultScreen({required this.personalityResult, required this.restartTest, required this.chosenAnswers, super.key});
+  final Map<Personality, int> personalityResult;
+ 
   @override
   Widget build(BuildContext context) {
-    int feelerCount = 0, thinkerCount = 0, plannerCount = 0, adventurerCount = 0;
-    for (var answer in chosenAnswers) {
-      if (answer == 'Feeler') {
-        feelerCount++;
-      } else if (answer == 'Thinker') {
-        thinkerCount++;
-      } else if (answer == 'Planner') {
-        plannerCount++;
-      } else if (answer == 'Adventurer') {
-        adventurerCount++;
+    int maxScore = max(
+      personalityResult[Personality.Feeler]!, 
+      max(
+        personalityResult[Personality.Thinker]!, 
+        max(
+          personalityResult[Personality.Planner]!, 
+          personalityResult[Personality.Adventurer]!
+        )
+      )
+    );
+
+    String resultMessage = '';
+
+    for(var entry in personalityResult.entries){
+      if(entry.value == maxScore){
+        switch(entry.key){
+          case Personality.Feeler:
+            resultMessage = message[Personality.Feeler]!;
+            break;
+          case Personality.Thinker:
+            resultMessage = message[Personality.Thinker]!;
+            break;
+          case Personality.Planner:
+            resultMessage = message[Personality.Planner]!;
+            break;  
+          case Personality.Adventurer:
+            resultMessage = message[Personality.Adventurer]!;
+            break;
+        }
+        break;
       }
     }
-
-    int maxCount = max(feelerCount, max(thinkerCount, max(plannerCount, adventurerCount)));
-    String resultMessage = '';
     
-    if (maxCount == feelerCount)
-      resultMessage = message[Personality.Feeler]!;
-      
-    else if (maxCount == thinkerCount)
-      resultMessage = message[Personality.Thinker]!;
-
-    else if (maxCount == plannerCount)
-      resultMessage = message[Personality.Planner]!;
-
-    else if (maxCount == adventurerCount)
-      resultMessage = message[Personality.Adventurer]!;
-
     
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,5 @@
+import 'package:personality_test_app/models/personality.dart';
+
 class Answer{
   const Answer({
     required this.text,
@@ -5,5 +7,6 @@ class Answer{
   });
   
   final String text;
-  final String personality;
+  final Personality personality;
+  
 }

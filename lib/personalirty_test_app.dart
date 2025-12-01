@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personality_test_app/data/questions_list.dart';
+import 'package:personality_test_app/models/personality.dart';
 import 'package:personality_test_app/screens/question_screen.dart';
 import 'package:personality_test_app/screens/result_screen.dart';
 import 'package:personality_test_app/screens/start_screen.dart';
@@ -30,12 +31,13 @@ class _PersonalityTestAppState extends State<PersonalityTestApp> {
     });
   }
 
-  void chooseAnswer(String personality) {
-    chosenAnswers.add(personality);
+  void chooseAnswer(Personality personality) {
+    chosenAnswers.add(personality.name);
 
     if (currentQuestionIndex + 1 < questionsList.length) {
       setState(() {
         currentQuestionIndex++;
+        personalityResult[personality] = personalityResult[personality]! + 1;
       });
     } 
     
@@ -46,6 +48,13 @@ class _PersonalityTestAppState extends State<PersonalityTestApp> {
     }
   }
 
+  Map<Personality, int> personalityResult = {
+    Personality.Feeler: 0,
+    Personality.Thinker: 0,
+    Personality.Planner: 0,
+    Personality.Adventurer: 0,
+  };
+  
   @override
   Widget build(BuildContext context) {
 
@@ -59,7 +68,10 @@ class _PersonalityTestAppState extends State<PersonalityTestApp> {
     }
 
     if(activeScreenName == 'result-screen'){
-      activeScreen = ResultScreen(restartTest: restartTest, chosenAnswers: chosenAnswers,);
+      activeScreen = ResultScreen(
+        personalityResult: personalityResult, 
+        restartTest: restartTest, 
+        chosenAnswers: chosenAnswers,);
     }
 
 

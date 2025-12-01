@@ -8,4 +8,10 @@ class Question{
   
   final String text;
   final List<Answer> answers;
+
+  List<Answer> getShuffledAnswers() {
+    final shuffledList = List.of(answers);
+    shuffledList.shuffle();
+    return shuffledList;
+  }
 }
